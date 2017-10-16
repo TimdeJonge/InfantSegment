@@ -8,7 +8,10 @@ mostVowels = longVowels + shortVowels[:-1] + borrowedVowels + diphthongs
 
 def addStress(word):
     if '-' not in word:
-        return(word)
+        for letter in word:
+            if letter in mostVowels:
+                return "\'" + word
+        return word
     else:
         syllables = word.split('-')
         stressed = -1
@@ -16,12 +19,14 @@ def addStress(word):
             for letter in syllables[i]:
                 if (letter in diphthongs or letter in longVowels) and syllables[i][-1] not in vowels and stressed == -1:
                     stressed = i
-        if (word[-1] in mostVowels or syllables[-2][-1] not in vowels) and stressed == -1:
+        if (word[-1] in mostVowels or syllables[-2][-1] not in vowels) and '@' not in syllables[len(syllables) - 2] and stressed == -1:
                 stressed = len(syllables) - 2
         elif stressed == -1 and len(syllables) == 2 and '@' not in syllables[1]:
                 stressed = 1
         elif stressed == -1:
-                stressed = 0
+                for i in range(len(syllables)):
+                    if '@' not in syllables[i]:
+                        stressed = i
 
     counter = 0
     wordOut = ''
@@ -32,8 +37,8 @@ def addStress(word):
         counter += 1
     print(wordOut)
     return wordOut
-# TODO: Evaluate how to deal with a open syllable with long vowel
-# TODO: Ponder whether to get stronger exceptions on @
+
+# TODO: Add stress to the vowel, not to the syllable
 
 
 g = open('stress.txt','w')

@@ -12,6 +12,8 @@ def addStress(word):
             if letter in mostVowels:
                 return "\'" + word
         return word
+        # TODO: Add stress to the vowel, not to the syllable in case 1 syllable
+
     else:
         syllables = word.split('-')
         stressed = -1
@@ -32,13 +34,25 @@ def addStress(word):
     wordOut = ''
     for syllable in syllables:
         if stressed == counter:
-            wordOut += '\''
-        wordOut += syllable
+            wordOut += "\'"
+        wordOut+= syllable
         counter += 1
     print(wordOut)
     return wordOut
+# CURRENT CODE KEPT ALIVE FOR TESTING, BELOW CODE IS FOR ACTUAL WORK
 
-# TODO: Add stress to the vowel, not to the syllable
+#    for syllable in syllables:
+#        if stressed == counter:
+#            for letter in syllable:
+#                if letter in vowels:
+#                    wordOut += "\'"
+#                wordOut += letter
+#        else:
+#            wordOut += syllable
+#        counter += 1
+#    print(wordOut)
+#    return wordOut
+
 
 
 g = open('stress.txt','w')

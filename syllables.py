@@ -1,9 +1,9 @@
 longVowels = ['i', 'y', 'e', '|', 'a', 'o', 'u', '#', '$', '3', ')']
 shortVowels = ['I', 'Y', 'E', '/', 'A', '{', 'Q', '&', 'O', '}', 'V', 'U']
-borrowedVowels = ['!', '(', '*', 'c', 'q', 'O', '~', '^']
+borrowedVowels = ['!', '(', '*', 'c', 'q', '<', 'O', '~', '^']
 diphthongs = ['K','L','M','1','2','4','5','6','7','8','9','W','B','X']
 vowels = longVowels + shortVowels + borrowedVowels + diphthongs + ['@']
-
+stopConsonant = ["p", "b", "t", "d", "k", "g", "G", "v", "s"]
 
 
 
@@ -18,49 +18,58 @@ def syllableSplit(word):
         if letter in vowels:
             if outString == '':
                 outString += tempString
-                tempString = ''
+
             else:
                 # SPECIAL CASES
                 if tempString[:3] == 'rts':
                     outString += tempString[:2] +'-' + tempString[2:]
-                    tempString = ''
+
                     ruleUsed = "Exception"
                 elif tempString[:3] == 'mbt':
                     outString += tempString[:2] + '-' + tempString[2:]
-                    tempString = ''
+
                     ruleUsed = "Exception"
                 elif tempString[:4] == 'lfts':
                     outString += tempString[:3] + '-' + tempString[3:]
-                    tempString = ''
+
                     ruleUsed = "Exception"
                 elif tempString[:3] == 'rwt':
                     outString += tempString[:2] + '-' + tempString[2:]
-                    tempString = ''
+
                     ruleUsed = "Exception"
                 # GENERAL CASES @
                 elif len(tempString) == 1:
                     outString += '-' + tempString
-                    tempString = ''
+
                     ruleUsed = "NoConsonant"
+
+                elif tempString[0] in stopConsonant and outString[-1] == '@':
+                    outString += '-' + tempString
+                    ruleUsed = "StopConsonant2"
                 elif len(tempString) == 2:
                     outString += '-' + tempString
-                    tempString = ''
                     ruleUsed = "OneConsonant"
+
+
                 elif outString[-1] in shortVowels:
                     outString += tempString[0] + '-' + tempString[1:]
-                    tempString = ''
+
                     ruleUsed = "ShortVowel"
+
+                elif tempString[0] in softConsonant and tempString[1] in stopConsonant:
+                    outString += tempString[:2] + "-" + tempString[2:]
+                    ruleUsed = "StopConsonant1"
                 else:
                     outString += tempString[0] + '-' + tempString[1:]
-                    tempString = ''
                     ruleUsed = "Default"
+            tempString = ''
             rulesUsed.append(ruleUsed)
         letterCounter += 1
     outString += tempString
     return [outString, rulesUsed]
 
 if __name__ == '__main__':
-    syllableSplit("Al@")
+    print(syllableSplit("g@strEst"))
 
 if False:
     g = open('sylSplit.txt', 'w')

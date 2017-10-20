@@ -54,8 +54,6 @@ print(ruleCount, goodRule, "\n", badWords)
 print(len(badWords))
 for rule in ruleCount:
     print(rule, ruleCount[rule] - goodRule[rule])
-# TODO: Increase size of dataset
-# TODO: diagnose ShortVowel rule
 # TODO: Document my code because really this is horrible for anyone not me
 
 with open('testresult.csv', 'w') as f:

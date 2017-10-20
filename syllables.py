@@ -55,10 +55,6 @@ def syllableSplit(word):
                     outString += tempString[0] + '-' + tempString[1:]
 
                     ruleUsed = "ShortVowel"
-
-                elif tempString[0] in softConsonant and tempString[1] in stopConsonant:
-                    outString += tempString[:2] + "-" + tempString[2:]
-                    ruleUsed = "StopConsonant1"
                 else:
                     outString += tempString[0] + '-' + tempString[1:]
                     ruleUsed = "Default"
@@ -69,9 +65,6 @@ def syllableSplit(word):
     return [outString, rulesUsed]
 
 if __name__ == '__main__':
-    print(syllableSplit("g@strEst"))
-
-if False:
     g = open('sylSplit.txt', 'w')
     with open('corpus.txt', 'r') as f:
         line = f.readline()[:-1]

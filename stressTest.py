@@ -3,8 +3,10 @@ from addStress import addStress
 testData = []
 validData = []
 words = []
+wordcount = []
 
 def compare(trueWord):
+    syllableCount = trueWord.count("-") + 1
     temp = ''
     for letter in trueWord:
         if letter != "\'":
@@ -13,8 +15,8 @@ def compare(trueWord):
     [ourGuess, ruleUsed] = addStress(baseWord)
     useValid = False
     for i in range(len(trueWord)):
-        if trueWord[i] == "'":
-            if ourGuess[i] == "-":
+        if trueWord[i] == "\'":
+            if ourGuess[i] == "\'":
                 useValid = True
             else:
                 useValid = False
@@ -26,36 +28,33 @@ with open('testset.csv', 'r') as f:
     while line != '':
         line = line.split(';')
         words.append(line[1])
-        validStr = ""
-        for char in line[2]:
-            if char != "\'":
-                validStr += char
-        validData.append(validStr)
+        wordcount.append(int(line[0]))
+        validData.append(line[2])
         testData.append(line[3][:-1])
         line = f.readline()
 
-ruleCount = {"SuperStress" : 0, "Default" : 0, "EndVowel" : 0, "OneSyllable" : 0, "TwoSyllable" : 0}
-goodRule = {"SuperStress" : 0, "Default" : 0, "EndVowel" : 0, "OneSyllable" : 0, "TwoSyllable" : 0}
+ruleCount = {"SuperStressD": 0, "SuperStressL": 0, "Default": 0, "EndVowel": 0, "OneSyllable": 0, "TwoSyllables": 0, "OtherRule": 0, "WOW": 0}
+goodRule = {"SuperStressD": 0, "SuperStressL": 0, "Default": 0, "EndVowel": 0, "OneSyllable": 0, "TwoSyllables": 0, "OtherRule": 0, "WOW": 0}
 badWords = []
-for i in range(10):
+trueGood = 0
+total = 0
+for i in range(11650):
     [baseWord, ourGuess, trueWord, ruleUsed, useValid] = compare(validData[i])
-    print(baseWord, ourGuess, trueWord, ruleUsed, useValid)
     if not useValid:
-        with open('badStress.txt', 'a') as f:
-            f.write(ourGuess + ', ' + trueWord + '\n')
+        # with open('badStress.txt', 'a') as f:
+            # f.write(ourGuess + ', ' + trueWord + ', ' + ruleUsed + '\n')
         badWords.append([ourGuess, trueWord])
-    for i in range(len(ruleUsed)):
-        ruleCount[ruleUsed] += 1
-        if useValid:
-            goodRule[ruleUsed] += 1
-
+    ruleCount[ruleUsed] += wordcount[i]
+    total += wordcount[i]
+    if useValid:
+        trueGood += wordcount[i]
+        goodRule[ruleUsed] += wordcount[i]
+print(trueGood, total, trueGood/total)
 print(ruleCount, goodRule, "\n", badWords)
 print(len(badWords))
 for rule in ruleCount:
-    print(rule, ruleCount[rule] - goodRule[rule])
+    print(rule, goodRule[rule]/ruleCount[rule])
 
-
-# TODO: diagnose ShortVowel rule
 # TODO: Document my code because really this is horrible for anyone not me
 
 

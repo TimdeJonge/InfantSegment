@@ -78,3 +78,6 @@ if __name__ == '__main__':
             for word in words:
                 lineOut += addStress(word) + ' '
             g.write(lineOut + '\n')
+
+
+# TODO: Clean up code

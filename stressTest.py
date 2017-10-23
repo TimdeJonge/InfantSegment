@@ -6,7 +6,8 @@ words = []
 wordcount = []
 
 def compare(trueWord):
-    syllableCount = trueWord.count("-") + 1
+    """Compare the verified stressed version of a word to our guess. Return our guess, the rule used to determine this,
+        and the evaluation of these rules."""
     temp = ''
     for letter in trueWord:
         if letter != "\'":
@@ -33,13 +34,16 @@ with open('testset.csv', 'r') as f:
         testData.append(line[3][:-1])
         line = f.readline()
 
-ruleCount = {"SuperStressD": 0, "SuperStressL": 0, "Default": 0, "EndVowel": 0, "OneSyllable": 0, "TwoSyllables": 0, "OtherRule": 0, "WOW": 0}
-goodRule = {"SuperStressD": 0, "SuperStressL": 0, "Default": 0, "EndVowel": 0, "OneSyllable": 0, "TwoSyllables": 0, "OtherRule": 0, "WOW": 0}
+ruleCount = {"SuperStressD": 0, "SuperStressL": 0, "Default": 0, "EndVowel": 0, "OneSyllable": 0, "TwoSyllables": 0,
+             "OtherRule": 0, "Exception": 0}
+goodRule = {"SuperStressD": 0, "SuperStressL": 0, "Default": 0, "EndVowel": 0, "OneSyllable": 0, "TwoSyllables": 0,
+            "OtherRule": 0, "Exception": 0}
 badWords = []
 trueGood = 0
 total = 0
 for i in range(11650):
-    [baseWord, ourGuess, trueWord, ruleUsed, useValid] = compare(validData[i])
+    trueWord = validData[i]
+    [baseWord, ourGuess, ruleUsed, useValid] = compare(validData[i])
     if not useValid:
         # with open('badStress.txt', 'a') as f:
             # f.write(ourGuess + ', ' + trueWord + ', ' + ruleUsed + '\n')

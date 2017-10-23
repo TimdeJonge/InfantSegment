@@ -15,7 +15,6 @@ def addStress(word):
                 outString += "\'"
             outString += letter
         return outString
-        # TODO: Add stress to the vowel, not to the syllable in case 1 syllable
     else:
         syllables = word.split('-')
         stressed = -1

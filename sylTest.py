@@ -54,6 +54,8 @@ ruleCount = {"NoRule": 0, "Default": 0, "Exception": 0, "NoConsonant": 0,  "Shor
 goodRule = {"NoRule": 0, "Default": 0, "Exception": 0, "NoConsonant": 0,  "ShortVowel": 0, "OneConsonant": 0,
             "StopConsonant": 0}
 badWords = []
+totalCount = 0
+totalGood = 0
 f = open('badWords.txt', 'w')
 for i in range(11650):
     baseWord = testData[i]
@@ -63,25 +65,18 @@ for i in range(11650):
         f.write(str(wordCount[i]) + ', ' + ourGuess + ', ' + trueWord + ', ' + str(rulesUsed) + '\n')
     for i in range(len(rulesUsed)):
         if countingType:
-            ruleCount[rulesUsed[i]] += wordCount[i]
-            if useValid[i]:
-                goodRule[rulesUsed[i]] += wordCount[i]
+            incValue = wordCount[i]
         else:
-            ruleCount[rulesUsed[i]] += 1
-            if useValid[i]:
-                goodRule[rulesUsed[i]] += 1
+            incValue = 1
+        ruleCount[rulesUsed[i]] += incValue
+        totalCount += incValue
+        if useValid[i]:
+            goodRule[rulesUsed[i]] += incValue
+            totalGood += incValue
 f.close()
 
 print(ruleCount)
 print(goodRule, '\n')
 for rule in ruleCount:
     print(rule + ":", "%.2f" % (goodRule[rule]*100 / ruleCount[rule]) )
-
-totalCount = 0
-totalGood = 0
-for rule in goodRule:
-    if rule != "NoRule":
-        totalGood += goodRule[rule]
-        totalCount += ruleCount[rule]
-
 print("Total success: ", "%.2f" % (totalGood*100 / totalCount))

@@ -60,6 +60,8 @@ def addStress(word):
             for i in range(lenSyl):
                 if '@' not in syllables[i] and 'IN' not in syllables[i]:
                     stressed = i
+            if stressed == -1:
+                stressed = lenSyl - 1
             ruleUsed = "Default"
 
     counter = 0
@@ -68,9 +70,9 @@ def addStress(word):
         for syllable in syllables:
             if stressed == counter:
                 wordOut += "\'"
-            wordOut+= syllable + "-"
+            wordOut+= syllable
             counter += 1
-            return [wordOut, ruleUsed]
+        return [wordOut, ruleUsed]
     else:
         for syllable in syllables:
             if stressed == counter:
@@ -81,7 +83,7 @@ def addStress(word):
             else:
                 wordOut += syllable
             counter += 1
-            return wordOut
+        return wordOut
 
 if __name__ == '__main__':
     testing = False

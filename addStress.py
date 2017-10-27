@@ -17,6 +17,8 @@ def addStress(word):
             outString = "\'" + word
             return [outString, ruleUsed]
         else:
+            if "@" in word:
+                return word
             outString = ''
             for letter in word:
                 if letter in vowels:
@@ -96,4 +98,4 @@ if __name__ == '__main__':
             lineOut = ''
             for word in words:
                 lineOut += addStress(word) + ' '
-            g.write(lineOut + '\n')
+            g.write(lineOut.strip(' ') + '\n')

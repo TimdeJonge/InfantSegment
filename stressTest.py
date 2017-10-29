@@ -5,7 +5,7 @@ words = []
 wordCount = []
 
 # We can either count each word once, or weighted by frequency. For weighted, use True, else, False.
-countingType = False
+countingType = True
 
 def compare(trueWord):
     """Compare the verified stressed version of a word to our guess. Return our guess, the rule used to determine this,

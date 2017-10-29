@@ -96,4 +96,4 @@ if __name__ == '__main__':
             lineOut = ''
             for word in words:
                 lineOut += addStress(word) + ' '
-            g.write(lineOut + '\n')
+            g.write(lineOut.strip(" ") + '\n')
